@@ -39,6 +39,8 @@ const FilterButton = styled.button`
 function Filter({ filterField, options }) {
   const [searchParam, setSearchParam] = useSearchParams();
 
+  const currFilter = searchParam.get(filterField) || options.at(0).value;
+
   function handleClick(value) {
     searchParam.set(filterField, value);
     setSearchParam(searchParam);
@@ -50,6 +52,7 @@ function Filter({ filterField, options }) {
         <FilterButton
           onClick={() => handleClick(option.value)}
           key={option.value}
+          active={option.value == currFilter}
         >
           {option.label}
         </FilterButton>
