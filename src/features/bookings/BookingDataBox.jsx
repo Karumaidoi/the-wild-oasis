@@ -122,8 +122,6 @@ function BookingDataBox({ booking }) {
     Cabins: { name: cabinName },
   } = booking;
 
-  console.log({ Guest });
-
   return (
     <StyledBookingDataBox>
       <Header>
