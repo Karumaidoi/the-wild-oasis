@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { getToday } from "../utils/helpers";
 import supabase from "./supabase";
 
@@ -16,12 +17,20 @@ export async function getBooking(id) {
   return data;
 }
 
-export async function getBookings() {
-  const { data, error } = await supabase
+export async function getBookings({ filter, sortBy }) {
+  let query = supabase
     .from("Bookings")
     .select(
       "id, created_at, startDate, endDate, numNights, numGuests, status, totalPrice, Cabins(name), Guest(fullName, email)"
     );
+
+  console.log(filter.field);
+  console.log(filter.value);
+
+  // Filter
+  if (filter.value != null) query = query.eq(filter.field, filter.value);
+
+  const { data, error } = await query;
 
   if (error) {
     console.error(error);
