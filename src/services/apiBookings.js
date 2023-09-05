@@ -24,11 +24,14 @@ export async function getBookings({ filter, sortBy }) {
       "id, created_at, startDate, endDate, numNights, numGuests, status, totalPrice, Cabins(name), Guest(fullName, email)"
     );
 
-  console.log(filter.field);
-  console.log(filter.value);
-
   // Filter
-  if (filter.value != null) query = query.eq(filter.field, filter.value);
+  if (filter.value) query = query.eq(filter.field, filter.value);
+
+  // SORTING
+  if (sortBy)
+    query = query.order(sortBy.field, {
+      ascending: sortBy.direction === "asc",
+    });
 
   const { data, error } = await query;
 
