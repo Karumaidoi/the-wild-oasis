@@ -119,9 +119,7 @@ function BookingDataBox({ booking }) {
     observations,
     isPaid,
     Guest: { nationality, countryFlag, email, nationalID, fullName },
-    Cabins,
-    // guests: { fullName: guestName, email, country, countryFlag, nationalID },
-    // cabins: { name: cabinName },
+    Cabins: { name: cabinName },
   } = booking;
 
   console.log({ Guest });
@@ -132,7 +130,7 @@ function BookingDataBox({ booking }) {
         <div>
           <HiOutlineHomeModern />
           <p>
-            {numNights} nights in Cabin <span>{Cabins.cabinName}</span>
+            {numNights} nights in Cabin <span>{cabinName}</span>
           </p>
         </div>
 
