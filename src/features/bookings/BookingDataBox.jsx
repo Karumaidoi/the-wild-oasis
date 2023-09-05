@@ -118,9 +118,13 @@ function BookingDataBox({ booking }) {
     hasBreakfast,
     observations,
     isPaid,
-    guests: { fullName: guestName, email, country, countryFlag, nationalID },
-    cabins: { name: cabinName },
+    Guest: { nationality, countryFlag, email, nationalID, fullName },
+    Cabins,
+    // guests: { fullName: guestName, email, country, countryFlag, nationalID },
+    // cabins: { name: cabinName },
   } = booking;
+
+  console.log({ Guest });
 
   return (
     <StyledBookingDataBox>
@@ -128,7 +132,7 @@ function BookingDataBox({ booking }) {
         <div>
           <HiOutlineHomeModern />
           <p>
-            {numNights} nights in Cabin <span>{cabinName}</span>
+            {numNights} nights in Cabin <span>{Cabins.cabinName}</span>
           </p>
         </div>
 
@@ -143,9 +147,11 @@ function BookingDataBox({ booking }) {
 
       <Section>
         <Guest>
-          {countryFlag && <Flag src={countryFlag} alt={`Flag of ${country}`} />}
+          {countryFlag && (
+            <Flag src={countryFlag} alt={`Flag of ${nationality}`} />
+          )}
           <p>
-            {guestName} {numGuests > 1 ? `+ ${numGuests - 1} guests` : ""}
+            {fullName} {numGuests > 1 ? `+ ${numGuests - 1} guests` : ""}
           </p>
           <span>&bull;</span>
           <p>{email}</p>
