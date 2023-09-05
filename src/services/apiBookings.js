@@ -40,15 +40,12 @@ export async function getBookings({ filter, sortBy, page }) {
     const from = (page - 1) * PAGE_SIZE;
     const to = from + PAGE_SIZE - 1;
 
-    console.log(from, to);
-
     query = query.range(from, to);
   }
 
   const { data, error, count } = await query;
 
   if (error) {
-    console.error(error);
     throw new Error("Bookings could not found");
   }
 
