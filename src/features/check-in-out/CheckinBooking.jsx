@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 import Checkbox from "../../ui/Checkbox";
 import { formatCurrency } from "../../utils/helpers";
 import { useCheckin } from "./useCheckin";
+import useSettings from "../settings/useSettings";
 
 const Box = styled.div`
   /* Box */
@@ -28,9 +29,17 @@ const Box = styled.div`
 function CheckinBooking() {
   const { isLoading, booking, error } = useBooking();
 
+  console.log(booking);
+
   const moveBack = useMoveBack();
   const [hasPaid, setHasPaid] = useState(false);
+  const [addBreakfast, setAddBreakfast] = useState(false);
   const { checkin, isCheckingin } = useCheckin();
+  // const {
+  //   settings,
+  //   isLoading: loadingSettings,
+  //   error: settingsError,
+  // } = useSettings();
 
   useEffect(() => {
     setHasPaid(booking?.hasPaid ?? false);
@@ -44,6 +53,8 @@ function CheckinBooking() {
     hasBreakfast,
     numNights,
   } = booking;
+
+  const optionalBreakfastPrice = numNights * numGuests;
 
   function handleCheckin() {
     if (!hasPaid) return;
@@ -64,12 +75,24 @@ function CheckinBooking() {
 
       <Box>
         <Checkbox
+          id="breakfast"
+          checked={addBreakfast}
+          onChange={() => {
+            setAddBreakfast((add) => !add), setHasPaid(false);
+          }}
+        >
+          Want to pay breakfast for {optionalBreakfastPrice}?
+        </Checkbox>
+      </Box>
+
+      <Box>
+        <Checkbox
           checked={hasPaid}
           onChange={() => setHasPaid((confirm) => !confirm)}
           disabled={hasPaid === true || isCheckingin}
           id="confirm"
         >
-          I confirm that {guests.fullName} has paid a total price of{" "}
+          I confirm that {guests.fullName} has paid a total price of
           {formatCurrency(totalPrice)}
         </Checkbox>
       </Box>
