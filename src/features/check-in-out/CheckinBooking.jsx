@@ -27,7 +27,7 @@ const Box = styled.div`
 `;
 
 function CheckinBooking() {
-  const { isLoading, booking, error } = useBooking();
+  const { isLoading, booking } = useBooking();
 
   console.log(booking);
 
