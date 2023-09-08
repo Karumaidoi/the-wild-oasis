@@ -35,11 +35,13 @@ function CheckinBooking() {
   const [hasPaid, setHasPaid] = useState(false);
   const [addBreakfast, setAddBreakfast] = useState(false);
   const { checkin, isCheckingin } = useCheckin();
-  // const {
-  //   settings,
-  //   isLoading: loadingSettings,
-  //   error: settingsError,
-  // } = useSettings();
+  const {
+    settings,
+    isLoading: loadingSettings,
+    error: settingsError,
+  } = useSettings();
+
+  console.log(settings);
 
   useEffect(() => {
     setHasPaid(booking?.hasPaid ?? false);
@@ -54,7 +56,9 @@ function CheckinBooking() {
     numNights,
   } = booking;
 
-  const optionalBreakfastPrice = numNights * numGuests;
+  const optionalBreakfastPrice =
+    settings.breakfastPrice * numNights * numGuests;
+  console.log(optionalBreakfastPrice);
 
   function handleCheckin() {
     if (!hasPaid) return;
@@ -81,7 +85,7 @@ function CheckinBooking() {
             setAddBreakfast((add) => !add), setHasPaid(false);
           }}
         >
-          Want to pay breakfast for {optionalBreakfastPrice}?
+          Want to pay breakfast for ${optionalBreakfastPrice}?
         </Checkbox>
       </Box>
 
