@@ -14,6 +14,7 @@ import { HiEye } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import { HiArrowDownOnSquare, HiArrowUpOnSquare } from "react-icons/hi2";
 import { useCheckout } from "../check-in-out/useCheckout";
+import { useDelete } from "./useDelete";
 
 const Cabin = styled.div`
   font-size: 1.6rem;
@@ -44,6 +45,7 @@ const Amount = styled.div`
 
 function BookingRow({ booking }) {
   const navigate = useNavigate();
+  const { isLoading, deleteBook } = useDelete();
   const { isCheckingOut, checkout } = useCheckout();
 
   const statusToTagName = {
@@ -105,6 +107,13 @@ function BookingRow({ booking }) {
               Check Out
             </Menus.Button>
           )}
+          <Menus.Button
+            disabled={isCheckingOut}
+            icon={<HiArrowUpOnSquare />}
+            onClick={() => deleteBook(booking?.id)}
+          >
+            Delete
+          </Menus.Button>
         </Menus.List>
       </Menus.Menu>
     </Table.Row>
