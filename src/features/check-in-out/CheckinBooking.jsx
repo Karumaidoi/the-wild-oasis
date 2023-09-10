@@ -27,46 +27,49 @@ const Box = styled.div`
 `;
 
 function CheckinBooking() {
-  const { isLoading, booking } = useBooking();
+  const { isLoading, booking, error } = useBooking();
+  console.log(isLoading);
 
   const moveBack = useMoveBack();
   const [hasPaid, setHasPaid] = useState(false);
   const [addBreakfast, setAddBreakfast] = useState(false);
   const { checkin, isCheckingin } = useCheckin();
-  const {
-    settings,
-    isLoading: loadingSettings,
-    error: settingsError,
-  } = useSettings();
 
-  useEffect(() => {
-    setHasPaid(booking?.hasPaid ?? false);
-  }, [booking?.hasPaid]);
+  if (isLoading) return <Spinner />;
 
-  const {
-    id: bookingId,
-    Guest: guests,
-    totalPrice,
-    numGuests,
-    hasBreakfast,
-    numNights,
-  } = booking;
+  // const {
+  //   settings,
+  //   // isLoading: loadingSettings,
+  //   error: settingsError,
+  // } = useSettings();
 
-  const optionalBreakfastPrice =
-    settings.breakfastPrice * numNights * numGuests;
+  // console.log(settings);
+
+  // useEffect(() => {
+  //   setHasPaid(booking?.hasPaid ?? false);
+  // }, [booking?.hasPaid]);
+
+  // const {
+  //   id,
+  //   Guest: guests,
+  //   totalPrice,
+  //   numGuests,
+  //   hasBreakfast,
+  //   numNights,
+  // } = booking;
+
+  const optionalBreakfastPrice = booking?.numNights * booking?.numGuests;
 
   function handleCheckin() {
     if (!hasPaid) return;
 
-    checkin(bookingId);
+    checkin(booking?.id);
   }
-
-  if (isLoading) return <Spinner />;
 
   return (
     <>
       <Row type="horizontal">
-        <Heading as="h1">Check in booking #{bookingId}</Heading>
+        <Heading as="h1">Check in booking #{booking?.id}</Heading>
         <ButtonText onClick={moveBack}>&larr; Back</ButtonText>
       </Row>
 
@@ -91,8 +94,8 @@ function CheckinBooking() {
           disabled={hasPaid === true || isCheckingin}
           id="confirm"
         >
-          I confirm that {guests.fullName} has paid a total price of
-          {formatCurrency(totalPrice)}
+          I confirm that {booking?.Guest?.fullName} has paid a total price of
+          {formatCurrency(booking?.totalPrice)}
         </Checkbox>
       </Box>
       <ButtonGroup>
@@ -100,7 +103,7 @@ function CheckinBooking() {
           disabled={hasPaid != true || isCheckingin}
           onClick={handleCheckin}
         >
-          Check in booking #{bookingId}
+          Check in booking #{booking?.id}
         </Button>
         <Button variation="secondary" onClick={moveBack}>
           Back

@@ -4,18 +4,19 @@ import { getToday } from "../utils/helpers";
 import supabase from "./supabase";
 
 export async function getBooking(id) {
+  console.log(id);
   const { data, error } = await supabase
     .from("Bookings")
     .select("*, Cabins(*), Guest(*)")
-    .eq("id", id)
-    .single();
+    .eq("id", id);
+  console.log(data.at(0));
 
   if (error) {
     console.error(error);
     throw new Error("Booking not found");
   }
 
-  return data;
+  return data.at(0);
 }
 
 export async function getBookings({ filter, sortBy, page }) {
