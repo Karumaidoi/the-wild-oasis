@@ -28,43 +28,49 @@ const Box = styled.div`
 
 function CheckinBooking() {
   const { isLoading, booking, error } = useBooking();
-  console.log(isLoading);
 
   const moveBack = useMoveBack();
   const [hasPaid, setHasPaid] = useState(false);
   const [addBreakfast, setAddBreakfast] = useState(false);
   const { checkin, isCheckingin } = useCheckin();
 
-  if (isLoading) return <Spinner />;
+  const {
+    settings,
+    isLoading: loadingSettings,
+    error: settingsError,
+  } = useSettings();
 
-  // const {
-  //   settings,
-  //   // isLoading: loadingSettings,
-  //   error: settingsError,
-  // } = useSettings();
+  useEffect(() => {
+    setHasPaid(booking?.hasPaid ?? false);
+  }, [booking?.hasPaid]);
 
-  // console.log(settings);
-
-  // useEffect(() => {
-  //   setHasPaid(booking?.hasPaid ?? false);
-  // }, [booking?.hasPaid]);
-
-  // const {
-  //   id,
-  //   Guest: guests,
-  //   totalPrice,
-  //   numGuests,
-  //   hasBreakfast,
-  //   numNights,
-  // } = booking;
-
-  const optionalBreakfastPrice = booking?.numNights * booking?.numGuests;
+  const optionalBreakfastPrice =
+    settings?.breakfastPrice * booking?.numNights * booking?.numGuests;
 
   function handleCheckin() {
     if (!hasPaid) return;
 
-    checkin(booking?.id);
+    if (!addBreakfast) {
+      console.log(booking);
+      const id = booking?.id;
+      console.log(id);
+      const totalPrice = booking?.totalPrice;
+      checkin({
+        id,
+        breakfast: {
+          hasBreakfast: true,
+          extraPrice: optionalBreakfastPrice,
+          totalPrice: totalPrice + optionalBreakfastPrice,
+        },
+      });
+    } else {
+      console.log(booking);
+      const id = booking?.id;
+      checkin({ id, breakfast: {} });
+    }
   }
+
+  if (isLoading) return <Spinner />;
 
   return (
     <>
