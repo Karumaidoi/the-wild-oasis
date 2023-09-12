@@ -16,9 +16,11 @@ function DashboardLayout() {
 
   if (loadingBookings || loadingStays) return <Spinner />;
 
-  console.log(confirmedStays);
+  if (!loadingBookings && !loadingStays) {
+    console.log(confirmedStays);
+    console.log(data);
+  }
 
-  console.log(data);
   return (
     <StyledDashboardLayout>
       <div>Statistics</div>
