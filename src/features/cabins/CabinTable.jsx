@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import Spinner from "./../../ui/Spinner";
 import CabinRow from "./CabinRow";
-import { useCabins } from "./useCabns";
+import { useCabins } from "./useCabins";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import { useSearchParams } from "react-router-dom";
