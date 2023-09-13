@@ -158,41 +158,40 @@ function DurationChart({ confirmedStays }) {
     <ChartBox>
       <Heading as="h2">Stay duration summary</Heading>
       <ResponsiveContainer width="100%" height={240}>
-        <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
-          <PolarGrid />
-          <PolarAngleAxis dataKey="duration" />
-          <PolarRadiusAxis />
-          <Radar
-            name="duration"
-            dataKey="value"
-            stroke="#8884d8"
-            fill="#8884d8"
-            fillOpacity={0.6}
-          />
-        </RadarChart>
+        <ResponsiveContainer width="100%" height={240}>
+          <PieChart>
+            <Pie
+              data={data}
+              nameKey="duration"
+              dataKey="value"
+              innerRadius={85}
+              outerRadius={110}
+              cx="40%"
+              cy="50%"
+              paddingAngle={3}
+            >
+              {data.map((entry) => (
+                <Cell
+                  fill={entry.color}
+                  stroke={entry.color}
+                  key={entry.duration}
+                />
+              ))}
+            </Pie>
+            <Tooltip />
+            <Legend
+              verticalAlign="middle"
+              align="right"
+              width="30%"
+              layout="vertical"
+              iconSize={15}
+              iconType="circle"
+            />
+          </PieChart>
+        </ResponsiveContainer>
       </ResponsiveContainer>
-      {/* <ResponsiveContainer width="100%" height={240}>
-        <PieChart>
-          <Pie dataKey={"value"} data={startDataLight} nameKey={"duration"} />
-        </PieChart>
-      </ResponsiveContainer> */}
     </ChartBox>
   );
-}
-
-{
-  /* <PieChart>
-  <Pie
-    data={startDataLight}
-    nameKey="duration"
-    dataKey="value"
-    innerRadius={85}
-    outerRadius={110}
-    cx="40%"
-    cy="50%"
-    paddingAngle={3}
-  />
-</PieChart>; */
 }
 
 export default DurationChart;
