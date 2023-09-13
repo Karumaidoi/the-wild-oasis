@@ -1,7 +1,11 @@
+/* eslint-disable no-unused-vars */
 import styled from "styled-components";
 
 import Heading from "../../ui/Heading";
 import Row from "../../ui/Row";
+import { useTodaysActivity } from "./useTodayActivity";
+import Spinner from "../../ui/Spinner";
+import TodayItem from "./TodayItem";
 
 const StyledToday = styled.div`
   /* Box */
@@ -36,14 +40,30 @@ const NoActivity = styled.p`
   margin-top: 0.8rem;
 `;
 
-function Today() {
+function TodayActivity() {
+  const { todaysActivity, isLoading } = useTodaysActivity();
+  console.log(todaysActivity);
   return (
     <StyledToday>
       <Row type="horizontal">
         <Heading as="h2">Today</Heading>
       </Row>
+
+      {!isLoading ? (
+        todaysActivity?.length > 0 ? (
+          <TodayList>
+            {todaysActivity.map((activity) => (
+              <TodayItem item={activity} key={activity.id} />
+            ))}
+          </TodayList>
+        ) : (
+          <NoActivity />
+        )
+      ) : (
+        <Spinner />
+      )}
     </StyledToday>
   );
 }
 
-export default Today;
+export default TodayActivity;

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import styled from "styled-components";
 
 export const Flag = styled.img`
@@ -6,3 +7,9 @@ export const Flag = styled.img`
   display: block;
   border: 1px solid var(--color-grey-100);
 `;
+
+function FlagCountry({ src }) {
+  return <Flag src={src === null ? "" : src} />;
+}
+
+export default FlagCountry;
